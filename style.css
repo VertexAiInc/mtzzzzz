@@ -1,0 +1,279 @@
+:root {
+    --bg-main: #0f0f11;
+    --bg-surface: #18181c;
+    --bg-card: #22222a;
+    --accent: #a87ffb;
+    --text-primary: #f3f3f5;
+    --text-secondary: #9fa0a6;
+    --radius-lg: 16px;
+    --radius-sm: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    overflow: hidden;
+}
+
+/* Container Principal ocupando 100% da tela */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding-bottom: 90px; /* Espaço para o player fixo */
+}
+
+/* Header Responsivo */
+.app-header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    background-color: var(--bg-main);
+}
+
+.brand {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.brand span {
+    color: var(--accent);
+}
+
+/* Barra de Busca Minimalista */
+.search-box {
+    display: flex;
+    background-color: var(--bg-surface);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: var(--radius-lg);
+    padding: 4px 8px 4px 16px;
+    align-items: center;
+    width: 100%;
+}
+
+.search-box input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 15px;
+    height: 40px;
+}
+
+.search-box button {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
+}
+
+.search-box button:hover {
+    color: var(--accent);
+    background-color: rgba(255,255,255,0.02);
+}
+
+/* Área de Rolagem das Músicas */
+.content-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 24px 24px 24px;
+}
+
+/* Grid Inteligente: 1 coluna no mobile, várias no PC */
+.songs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+/* Tela inicial vazia */
+.empty-state {
+    text-align: center;
+    margin-top: 100px;
+    color: var(--text-secondary);
+}
+
+.empty-state span {
+    font-size: 48px;
+    color: rgba(255,255,255,0.1);
+    margin-bottom: 12px;
+}
+
+/* Cards das Músicas */
+.song-card {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-surface);
+    padding: 12px;
+    border-radius: var(--radius-lg);
+    transition: transform 0.2s, background-color 0.2s;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.song-card:hover {
+    background-color: var(--bg-card);
+    border-color: rgba(255,255,255,0.03);
+}
+
+.song-thumb {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+    margin-right: 16px;
+}
+
+.song-meta {
+    flex: 1;
+    min-width: 0; /* Impede que o texto quebre o layout */
+}
+
+.song-title {
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+}
+
+.song-artist {
+    font-size: 13px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-play-btn {
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+    display: flex;
+    padding: 8px;
+}
+
+/* Player Fixo Inferior */
+.player-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 84px;
+    background-color: rgba(24, 24, 28, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 100;
+}
+
+.player-track-info {
+    display: flex;
+    align-items: center;
+    max-width: 70%;
+}
+
+#player-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+    margin-right: 14px;
+    background-color: var(--bg-card);
+}
+
+.track-text {
+    min-width: 0;
+}
+
+#current-title {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#current-artist {
+    font-size: 12px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+}
+
+.main-control-btn {
+    background-color: var(--text-primary);
+    color: var(--bg-main);
+    border: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.main-control-btn:active {
+    transform: scale(0.95);
+}
+
+/* MEDIA QUERIES (Ajustes para Telas Grandes / PC) */
+@media (min-width: 768px) {
+    .app-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 32px 40px;
+    }
+
+    .search-box {
+        max-width: 400px;
+    }
+
+    .content-area {
+        padding: 0 40px 40px 40px;
+    }
+
+    /* Transforma a lista em Grade de 2 colunas no PC */
+    .songs-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .player-bar {
+        padding: 0 40px;
+        height: 90px;
+    }
+}
+
+@media (min-width: 1200px) {
+    /* Grade de 3 colunas em telas muito grandes */
+    .songs-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mtz Player</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Ícones Minimalistas -->
+    <link rel="stylesheet" href="https://googleapis.com" />
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Barra Superior (Logo + Busca) -->
+        <header class="app-header">
+            <h1 class="brand">Mtz <span>Player</span></h1>
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Artistas, músicas ou álbuns...">
+                <button id="search-btn">
+                    <span class="material-symbols-rounded">search</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Área Principal (Resultados da Busca) -->
+        <main class="content-area">
+            <div id="songs-list" class="songs-grid">
+                <div class="empty-state">
+                    <span class="material-symbols-rounded">music_note</span>
+                    <p>O que vamos ouvir hoje?</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Player de Mídia Inferior -->
+        <footer class="player-bar">
+            <div class="player-track-info">
+                <img id="player-thumb" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='48' height='48' viewBox='0 0 24 24' fill='%23333'><rect width='24' height='24' rx='4'/></svg>" alt="Capa">
+                <div class="track-text">
+                    <p id="current-title">Nenhuma música tocando</p>
+                    <p id="current-artist">Selecione uma faixa</p>
+                </div>
+            </div>
+
+            <div class="player-controls">
+                <audio id="audio-player"></audio>
+                <button id="play-pause-btn" class="main-control-btn">
+                    <span class="material-symbols-rounded">play_arrow</span>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
