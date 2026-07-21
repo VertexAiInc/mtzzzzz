@@ -1,108 +1,73 @@
-// ATENÇÃO: Troque pelo link gerado pelo seu Cloudflare Worker
-const WORKER_URL = "https://mtz-player.joaopedro2012fl.workers.dev"; 
+// Captura de elementos DOM principais
+const loginBtn = document.getElementById('login-btn');
+const getKeyBtn = document.getElementById('get-key-btn'); // Novo elemento
+const keyInput = document.getElementById('key-input');
+const loginScreen = document.getElementById('login-screen');
+const mainMenu = document.getElementById('main-menu');
 
-const searchInput = document.getElementById('search-input');
-const searchBtn = document.getElementById('search-btn');
-const songsList = document.getElementById('songs-list');
-const audioPlayer = document.getElementById('audio-player');
-const playPauseBtn = document.getElementById('play-pause-btn');
+const EXPECTED_KEY = "KEYINJECTOR1";
 
-// Listener para buscar ao clicar no botão ou apertar Enter
-searchBtn.addEventListener('click', searchSongs);
-searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') searchSongs(); });
+// Ação do novo botão Get Key
+getKeyBtn.addEventListener('click', function() {
+    // Substitua a URL abaixo pelo link de redirecionamento desejado
+    const urlDoEncurtador = "https://linkvertise.com/7671760/lfKtpqWvlY9B?o=sharing"; 
+    window.open(urlDoEncurtador, '_blank');
+});
 
-// Controle manual de Play/Pause na barra de baixo
-playPauseBtn.addEventListener('click', () => {
-    if (!audioPlayer.src) return;
-    if (audioPlayer.paused) {
-        audioPlayer.play();
-        playPauseBtn.innerHTML = `<span class="material-symbols-rounded">pause</span>`;
+// Gerenciador do sistema de login por chave
+loginBtn.addEventListener('click', function() {
+    if (keyInput.value.trim() === EXPECTED_KEY) {
+        loginScreen.classList.add('hidden');
+        mainMenu.classList.remove('hidden');
+        showNotification("Acesso Autorizado!");
     } else {
-        audioPlayer.pause();
-        playPauseBtn.innerHTML = `<span class="material-symbols-rounded">play_arrow</span>`;
+        showNotification("Erro: Chave inválida.");
     }
 });
 
-async function searchSongs() {
-    const query = searchInput.value.trim();
-    if (!query) return;
+// Mecanismo de troca de abas (Tabs)
+const tabButtons = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
 
-    songsList.innerHTML = `
-        <div class="empty-state">
-            <p>Procurando no Mtz Player...</p>
-        </div>
-    `;
+tabButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
 
-    try {
-        const res = await fetch(`${WORKER_URL}/api/search?q=${encodeURIComponent(query)}`);
-        const songs = await res.json();
+        this.classList.add('active');
+        const targetTab = this.getAttribute('data-tab');
+        document.getElementById(targetTab).classList.add('active');
+    });
+});
 
-        songsList.innerHTML = "";
-
-        if (songs.length === 0) {
-            songsList.innerHTML = `
-                <div class="empty-state">
-                    <span class="material-symbols-rounded">sentiment_dissatisfied</span>
-                    <p>Nenhuma música encontrada.</p>
-                </div>
-            `;
-            return;
-        }
-
-        songs.forEach(song => {
-            const card = document.createElement('div');
-            card.className = 'song-card';
-            
-            // O próprio card vira o botão de clique para tocar a música
-            card.onclick = () => playSong(song.id, song.title, song.uploader, song.thumbnail);
-            
-            card.innerHTML = `
-                <img src="${song.thumbnail}" alt="Capa" class="song-thumb">
-                <div class="song-meta">
-                    <p class="song-title">${song.title}</p>
-                    <p class="song-artist">${song.uploader}</p>
-                </div>
-                <button class="card-play-btn">
-                    <span class="material-symbols-rounded">play_circle</span>
-                </button>
-            `;
-            songsList.appendChild(card);
-        });
-    } catch (err) {
-        songsList.innerHTML = `
-            <div class="empty-state">
-                <p>Erro de conexão com o Worker da Cloudflare.</p>
-            </div>
-        `;
-    }
-}
-
-async function playSong(id, title, artist, thumbnail) {
-    // Atualiza o player visual imediatamente com estado de carregamento
-    document.getElementById('current-title').innerText = "Carregando...";
-    document.getElementById('current-artist').innerText = artist;
-    document.getElementById('player-thumb').src = thumbnail;
-
-    try {
-        const res = await fetch(`${WORKER_URL}/api/stream?id=${id}`);
-        const data = await res.json();
-
-        audioPlayer.src = data.url;
-        audioPlayer.play();
+// Eventos de ativação para as opções
+const switches = document.querySelectorAll('.toggle-switch');
+switches.forEach(item => {
+    item.addEventListener('change', function() {
+        const featureName = this.getAttribute('data-name');
         
-        // Atualiza os textos e botão de controle para "Pause"
-        document.getElementById('current-title').innerText = title;
-        playPauseBtn.innerHTML = `<span class="material-symbols-rounded">pause</span>`;
-
-        // Ativa controles do sistema operacional/tela de bloqueio
-        if ('mediaSession' in navigator) {
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: title,
-                artist: artist,
-                artwork: [{ src: thumbnail }]
-            });
+        if (this.checked) {
+            showNotification(`Injetando ${featureName}...`);
+            
+            setTimeout(() => {
+                showNotification(`Injetado em com.dts.freefireth`);
+            }, 1200);
+        } else {
+            showNotification(`${featureName}: Desativado.`);
         }
-    } catch (err) {
-        document.getElementById('current-title').innerText = "Erro ao reproduzir";
-    }
+    });
+});
+
+// Função centralizada para exibir os Toasts flutuantes
+function showNotification(message) {
+    const container = document.getElementById('notification-container');
+    const toast = document.createElement('div');
+    toast.classList.add('toast');
+    toast.innerText = message;
+    
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.remove();
+    }, 2500);
 }

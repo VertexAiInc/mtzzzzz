@@ -3,52 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mtz Player</title>
+    <title>MTZ FF Injector</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Ícones Minimalistas -->
-    <link rel="stylesheet" href="https://googleapis.com" />
 </head>
 <body>
 
-    <div class="app-container">
-        <!-- Barra Superior (Logo + Busca) -->
-        <header class="app-header">
-            <h1 class="brand">Mtz <span>Player</span></h1>
-            <div class="search-box">
-                <input type="text" id="search-input" placeholder="Artistas, músicas ou álbuns...">
-                <button id="search-btn">
-                    <span class="material-symbols-rounded">search</span>
-                </button>
-            </div>
-        </header>
+    <!-- Container das Mensagens Flutuantes -->
+    <div id="notification-container"></div>
 
-        <!-- Área Principal (Resultados da Busca) -->
-        <main class="content-area">
-            <div id="songs-list" class="songs-grid">
-                <div class="empty-state">
-                    <span class="material-symbols-rounded">music_note</span>
-                    <p>O que vamos ouvir hoje?</p>
+    <!-- Tela 1: Validação de Chave -->
+    <div id="login-screen" class="menu-box">
+        <div class="menu-header">
+            <h2>MTZ FF Injector</h2>
+            <span class="status text-warning">Aguardando Chave</span>
+        </div>
+        <div class="input-group">
+            <p>Insira sua credencial ativa:</p>
+            <input type="text" id="key-input" placeholder="Insira a KEY aqui...">
+            <button id="login-btn">Verificar Credenciais</button>
+            <button id="get-key-btn" class="secondary-btn">Get Key</button>
+        </div>
+    </div>
+
+    <!-- Tela 2: Painel de Opções -->
+    <div id="main-menu" class="menu-box hidden">
+        <div class="menu-header">
+            <h2>MTZ FF Injector</h2>
+            <span class="status text-success">Conectado ao Jogo</span>
+        </div>
+
+        <!-- Cabeçalho das Abas -->
+        <div class="tabs-header">
+            <button class="tab-btn active" data-tab="tab-aimbot">Aimbot</button>
+            <button class="tab-btn" data-tab="tab-esp">ESP</button>
+            <button class="tab-btn" data-tab="tab-about">About</button>
+        </div>
+        
+        <!-- Conteúdo das Abas -->
+        <div class="menu-content">
+            
+            <!-- Aba: AIMBOT -->
+            <div id="tab-aimbot" class="tab-content active">
+                <div class="option-row">
+                    <label>Auto Aimbot 95%</label>
+                    <label class="switch">
+                        <input type="checkbox" class="toggle-switch" data-name="Auto Aimbot">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="option-row">
+                    <label>Aim Lock (Cabeça)</label>
+                    <label class="switch">
+                        <input type="checkbox" class="toggle-switch" data-name="Aim Lock">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="option-row">
+                    <label>Suavizar Mira (Fov)</label>
+                    <label class="switch">
+                        <input type="checkbox" class="toggle-switch" data-name="Suavizar Mira">
+                        <span class="slider"></span>
+                    </label>
                 </div>
             </div>
-        </main>
 
-        <!-- Player de Mídia Inferior -->
-        <footer class="player-bar">
-            <div class="player-track-info">
-                <img id="player-thumb" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='48' height='48' viewBox='0 0 24 24' fill='%23333'><rect width='24' height='24' rx='4'/></svg>" alt="Capa">
-                <div class="track-text">
-                    <p id="current-title">Nenhuma música tocando</p>
-                    <p id="current-artist">Selecione uma faixa</p>
+            <!-- Aba: ESP -->
+            <div id="tab-esp" class="tab-content">
+                <div class="option-row">
+                    <label>ESP Linha (Player)</label>
+                    <label class="switch">
+                        <input type="checkbox" class="toggle-switch" data-name="ESP Linha">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="option-row">
+                    <label>ESP Caixa 3D</label>
+                    <label class="switch">
+                        <input type="checkbox" class="toggle-switch" data-name="ESP Caixa">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="option-row">
+                    <label>ESP Distância</label>
+                    <label class="switch">
+                        <input type="checkbox" class="toggle-switch" data-name="ESP Distância">
+                        <span class="slider"></span>
+                    </label>
                 </div>
             </div>
 
-            <div class="player-controls">
-                <audio id="audio-player"></audio>
-                <button id="play-pause-btn" class="main-control-btn">
-                    <span class="material-symbols-rounded">play_arrow</span>
-                </button>
+            <!-- Aba: ABOUT -->
+            <div id="tab-about" class="tab-content">
+                <div class="about-text">
+                    <p><strong>MTZ FF Injector v1.0</strong></p>
+                    <p class="about-description">Desenvolvido para otimização visual móvel e testes de HUD estrutural externo.</p>
+                    <p class="about-status">Status da Versão: Protegida</p>
+                </div>
             </div>
-        </footer>
+
+        </div>
     </div>
 
     <script src="app.js"></script>
