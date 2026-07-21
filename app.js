@@ -5,7 +5,7 @@ const keyInput = document.getElementById('key-input');
 const loginScreen = document.getElementById('login-screen');
 const mainMenu = document.getElementById('main-menu');
 
-const EXPECTED_KEY = "KEYINJECTOR1";
+const EXPECTED_KEY = "KEYINJECTOR01";
 
 // Ação do novo botão Get Key
 getKeyBtn.addEventListener('click', function() {
